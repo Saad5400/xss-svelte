@@ -30,8 +30,8 @@
 					class="border-primary border-b-4 border-r-4 border-t-1 border-l-1"
 				>
 					<CardContent>
-						<!-- NOT SAFE! -->
-						{@html comment.content}
+						<!-- Safe :) -->
+						{comment.content}
 					</CardContent>
 					<CardFooter class="text-foreground/50 text-sm flex">
             <span class="flex-1">
