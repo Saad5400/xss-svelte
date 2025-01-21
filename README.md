@@ -64,6 +64,37 @@ user input contains malicious scripts, they will be rendered as text and not exe
 Which is the better choice in this particular case as user comments might contain scripts that are meant to be
 displayed.
 
+# XSS in Popular Frontend Frameworks
+
+This section demonstrates how XSS vulnerabilities may occur in popular frontend frameworks and how to prevent them. Each example shows an improper and proper way of handling user input.
+
+## Comparison Table: Proper vs Improper Rendering
+
+| Framework        | Improper Rendering (Vulnerable to XSS)         | Proper Rendering (Safe) |
+|-----------------|-----------------------------------------------|-------------------------|
+| **Svelte**      | `{@html userInput}`                            | `{userInput}` |
+| **React**       | `<div dangerouslySetInnerHTML={{ __html: userInput }} />` | `<div>{userInput}</div>` |
+| **Vue.js**      | `<div v-html="userInput"></div>`               | `<div>{{ userInput }}</div>` |
+| **Angular**     | `<div [innerHTML]="userInput"></div>`          | `<div>{{ userInput }}</div>` |
+| **SolidJS**     | `<div innerHTML={userInput}></div>`            | `<div>{userInput}</div>` |
+| **Express.js**  | `res.send(userInput)`                          | `res.send(escape(userInput))` |
+| **Fastify**     | `reply.send(userInput)`                        | `reply.send(escape(userInput))` |
+| **NestJS**      | `res.send(userInput)`                          | `res.send(escape(userInput))` or use a validation pipe |
+| **Django**      | `return HttpResponse(user_input)`              | `return HttpResponse(escape(user_input))` or use Django templates (auto-escapes) |
+| **Flask**       | `return user_input`                            | `return escape(user_input)` or use Jinja templates (auto-escapes) |
+| **Laravel Blade** | `{!! $userInput !!}`                          | `{{ $userInput }}` (Blade auto-escapes output) |
+| **ASP.NET Razor** | `@Html.Raw(userInput)`                       | `@userInput` (Razor auto-escapes output) |
+| **Spring Boot (Thymeleaf)** | `th:utext="${userInput}"`           | `th:text="${userInput}"` (Thymeleaf auto-escapes output) |
+
+### General XSS Prevention in JavaScript
+To safely render user input in cases where HTML is necessary, use sanitization libraries like `DOMPurify`:
+
+```js
+import DOMPurify from 'dompurify';
+
+const safeInput = DOMPurify.sanitize(userInput);
+```
+
 # Credits
 
 This project is aimed for the course Introduction to CyberSecurity at the Umm Al-Qura University.
