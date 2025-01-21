@@ -1,13 +1,13 @@
 import { db } from "$lib/server/db";
 import { comments } from "$lib/server/db/schema";
-import { desc, eq } from "drizzle-orm";
+import { asc, desc, eq } from "drizzle-orm";
 import type { Actions, PageServerLoad } from "./$types";
 
 export const load: PageServerLoad = async () => {
   return {
     comments: await db.query.comments.findMany({
       limit: 20,
-      orderBy: desc(comments.created_at),
+      orderBy: asc(comments.created_at),
     }),
   };
 };

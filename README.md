@@ -1,38 +1,71 @@
-# sv
+# XSS Svelte
 
-Everything you need to build a Svelte project, powered by [`sv`](https://github.com/sveltejs/cli).
+This is a simple Svelte app that demonstrates how XSS may occur in a Svelte app. And how we can prevent it!
 
-## Creating a project
+# Installation
 
-If you're seeing this, you've probably already done this step. Congrats!
+1. Clone the repository.
 
 ```bash
-# create a new project in the current directory
-npx sv create
-
-# create a new project in my-app
-npx sv create my-app
+git clone https://github.com/Saad5400/xss-svelte
 ```
 
-## Developing
+2. Open the project directory.
+3. Copy .env.example to .env and fill in the required values. (Postgres database connection string)
+4. Install the dependencies.
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```bash
+npm install
+```
+
+4. Run the project.
 
 ```bash
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
 
-## Building
+# How XSS occurs?
 
-To create a production version of your app:
+XSS occurs when a user input is not sanitized and is directly rendered to the DOM. This allows the user to inject
+malicious scripts that can steal user data or perform other malicious activities.
 
-```bash
-npm run build
+For example, consider the following comment:
+
+```html
+<script>
+	alert('Hello, I am an alert!');
+</script>
 ```
 
-You can preview the production build with `npm run preview`.
+If this comment is rendered directly to the DOM, the script will be executed on the client's browser.
 
-> To deploy your app, you may need to install an [adapter](https://svelte.dev/docs/kit/adapters) for your target environment.
+# Why is it dangerous?
+
+XSS is dangerous because it allows an attacker to inject malicious scripts that can steal user data, perform actions on
+behalf of the user, or even mine cryptocurrencies using the user's machine!
+
+# How to prevent XSS?
+
+## 1. Sanitize user input
+
+The best way to prevent XSS is to sanitize user input. This means parsing the input and removing any potentially harmful
+html tags or scripts.
+
+Sanitizing can be done before rendering the input to the DOM. There are many libraries that can help with this, such as
+`DOMPurify`, `sanitize-html`, etc.
+
+## 2. Not rendering user input as HTML
+
+In most cases, user input should not be rendered as HTML. Instead, it should be rendered as text.
+
+This way, even if the
+user input contains malicious scripts, they will be rendered as text and not executed.
+
+Which is the better choice in this particular case as user comments might contain scripts that are meant to be
+displayed.
+
+# Credits
+
+This project is aimed for the course Introduction to CyberSecurity at the Umm Al-Qura University.
+
+Developed by Saad Batwa - 444004616.
