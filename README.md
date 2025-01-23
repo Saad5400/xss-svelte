@@ -70,21 +70,19 @@ This section demonstrates how XSS vulnerabilities may occur in popular frontend 
 
 ## Comparison Table: Proper vs Improper Rendering
 
-Templating Engine      | Improper Templating (Vulnerable to XSS) | Proper Templating (Safe)
----------------------- | -------------------------------------- | -------------------------
-Svelte                | {@html userInput}                      | {userInput}
-React (JSX)          | <div dangerouslySetInnerHTML={{ __html: userInput }} /> | <div>{userInput}</div>
-Vue.js               | <div v-html="userInput"></div>          | <div>{{ userInput }}</div>
-Angular              | <div [innerHTML]="userInput"></div>     | <div>{{ userInput }}</div>
-SolidJS              | <div innerHTML={userInput}></div>       | <div>{userInput}</div>
-Jinja2 (Flask)       | {{ user_input|safe }}                  | {{ user_input }} (auto-escaped)
-Django Templates     | {{ user_input|safe }}                  | {{ user_input }} (auto-escaped)
-Laravel Blade        | {!! $userInput !!}                      | {{ $userInput }} (auto-escaped)
-ASP.NET Razor        | @Html.Raw(userInput)                    | @userInput (auto-escaped)
-Thymeleaf (Spring)   | th:utext="${userInput}"                 | th:text="${userInput}" (auto-escaped)
-Handlebars.js        | {{{ userInput }}}                      | {{ userInput }} (auto-escaped)
-EJS                 | <%- userInput %>                        | <%= userInput %> (auto-escaped)
-Pug                 | !{userInput}                            | #{userInput} (auto-escaped)
+| Templating Engine  | Improper Templating (Vulnerable to XSS)             | Proper Templating (Safe)             |
+|--------------------|----------------------------------------------------|-------------------------------------|
+| Svelte           | `{@html userInput}`                                 | `{userInput}`                      |
+| React (JSX)      | `<div dangerouslySetInnerHTML={{ __html: userInput }} />` | `<div>{userInput}</div>`           |
+| Vue.js           | `<div v-html="userInput"></div>`                     | `<div>{{ userInput }}</div>`       |
+| Angular         | `<div [innerHTML]="userInput"></div>`                 | `<div>{{ userInput }}</div>`       |
+| SolidJS         | `<div innerHTML={userInput}></div>`                   | `<div>{userInput}</div>`           |
+| Laravel Blade   | `{!! $userInput !!}`                                  | `{{ $userInput }}`                 |
+| ASP.NET Razor   | `@Html.Raw(userInput)`                                | `@userInput`                       |
+| Thymeleaf       | `th:utext="${userInput}"`                             | `th:text="${userInput}"`           |
+| Handlebars.js   | `{{{ userInput }}}`                                   | `{{ userInput }}`                  |
+| EJS             | `<%- userInput %>`                                    | `<%= userInput %>`                 |
+| Pug            | `!{userInput}`                                        | `#{userInput}`                     |
 
 ### General XSS Prevention in JavaScript
 To safely render user input in cases where HTML is necessary, use sanitization libraries like `DOMPurify`:
